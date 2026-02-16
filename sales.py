@@ -68,34 +68,34 @@ class salesClass:
         ).place(x=490, y=100, width=120, height=28)
 
         # ----------------- bill list -------------------
-        sales_Frame = Frame(self.root, bd=3, relief=RIDGE)
-        sales_Frame.place(x=50, y=140, width=200, height=330)
+        sales_frame = Frame(self.root, bd=3, relief=RIDGE)
+        sales_frame.place(x=50, y=140, width=200, height=330)
 
-        scrolly = Scrollbar(sales_Frame, orient=VERTICAL)
-        self.Sales_List = Listbox(
-            sales_Frame,
+        scrolly = Scrollbar(sales_frame, orient=VERTICAL)
+        self.sales_list = Listbox(
+            sales_frame,
             font=("goudy old style", 15),
             bg="white",
             yscrollcommand=scrolly.set,
         )
         scrolly.pack(side=RIGHT, fill=Y)
-        scrolly.config(command=self.Sales_List.yview)
-        self.Sales_List.pack(fill=BOTH, expand=1)
-        self.Sales_List.bind("<ButtonRelease-1>", self.get_data)
+        scrolly.config(command=self.sales_list.yview)
+        self.sales_list.pack(fill=BOTH, expand=1)
+        self.sales_list.bind("<ButtonRelease-1>", self.get_data)
 
         # --------------- bill area ----------------------
-        bill_Frame = Frame(self.root, bd=3, relief=RIDGE)
-        bill_Frame.place(x=280, y=140, width=410, height=330)
+        bill_frame = Frame(self.root, bd=3, relief=RIDGE)
+        bill_frame.place(x=280, y=140, width=410, height=330)
 
         lbl_title2 = Label(
-            bill_Frame,
+            bill_frame,
             text="Customer Bill Area",
             font=("goudy old style", 20),
             bg="orange",
         ).pack(side=TOP, fill=X)
 
-        scrolly2 = Scrollbar(bill_Frame, orient=VERTICAL)
-        self.bill_area = Text(bill_Frame, bg="lightyellow", yscrollcommand=scrolly2.set)
+        scrolly2 = Scrollbar(bill_frame, orient=VERTICAL)
+        self.bill_area = Text(bill_frame, bg="lightyellow", yscrollcommand=scrolly2.set)
         scrolly2.pack(side=RIGHT, fill=Y)
         scrolly2.config(command=self.bill_area.yview)
         self.bill_area.pack(fill=BOTH, expand=1)
@@ -114,19 +114,19 @@ class salesClass:
     # -------------------------------------------------------
     def show(self):
         del self.blll_list[:]
-        self.Sales_List.delete(0, END)
+        self.sales_list.delete(0, END)
 
         for i in os.listdir(BILL_DIR):
             if i.split(".")[-1] == "txt":
-                self.Sales_List.insert(END, i)
+                self.sales_list.insert(END, i)
                 self.blll_list.append(i.split(".")[0])
 
     def get_data(self, ev):
-        index_ = self.Sales_List.curselection()
+        index_ = self.sales_list.curselection()
         if not index_:
             return
 
-        file_name = self.Sales_List.get(index_)
+        file_name = self.sales_list.get(index_)
         self.bill_area.delete("1.0", END)
 
         file_path = os.path.join(BILL_DIR, file_name)

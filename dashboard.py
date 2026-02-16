@@ -61,24 +61,24 @@ class IMS:
         self.lbl_clock.place(x=0, y=70, relwidth=1, height=30)
 
         # ---------------- left menu ---------------
-        self.MenuLogo = Image.open(os.path.join(IMAGE_DIR, "menu_im.png"))
-        self.MenuLogo = self.MenuLogo.resize((200, 200))
-        self.MenuLogo = ImageTk.PhotoImage(self.MenuLogo)
+        self.menu_logo = Image.open(os.path.join(IMAGE_DIR, "menu_im.png"))
+        self.menu_logo = self.menu_logo.resize((200, 200))
+        self.menu_logo = ImageTk.PhotoImage(self.menu_logo)
 
-        LeftMenu = Frame(self.root, bd=2, relief=RIDGE, bg="white")
-        LeftMenu.place(x=0, y=102, width=200, height=565)
+        left_menu = Frame(self.root, bd=2, relief=RIDGE, bg="white")
+        left_menu.place(x=0, y=102, width=200, height=565)
 
-        lbl_menuLogo = Label(LeftMenu, image=self.MenuLogo)
+        lbl_menuLogo = Label(left_menu, image=self.menu_logo)
         lbl_menuLogo.pack(side=TOP, fill=X)
 
         lbl_menu = Label(
-            LeftMenu, text="Menu", font=("times new roman", 20), bg="#009688"
+            left_menu, text="Menu", font=("times new roman", 20), bg="#009688"
         ).pack(side=TOP, fill=X)
 
         self.icon_side = PhotoImage(file=os.path.join(IMAGE_DIR, "side.png"))
 
         btn_employee = Button(
-            LeftMenu,
+            left_menu,
             text="Employee",
             command=self.employee,
             image=self.icon_side,
@@ -92,7 +92,7 @@ class IMS:
         ).pack(side=TOP, fill=X)
 
         btn_supplier = Button(
-            LeftMenu,
+            left_menu,
             text="Supplier",
             command=self.supplier,
             image=self.icon_side,
@@ -106,7 +106,7 @@ class IMS:
         ).pack(side=TOP, fill=X)
 
         btn_category = Button(
-            LeftMenu,
+            left_menu,
             text="Category",
             command=self.category,
             image=self.icon_side,
@@ -120,7 +120,7 @@ class IMS:
         ).pack(side=TOP, fill=X)
 
         btn_product = Button(
-            LeftMenu,
+            left_menu,
             text="Products",
             command=self.product,
             image=self.icon_side,
@@ -134,7 +134,7 @@ class IMS:
         ).pack(side=TOP, fill=X)
 
         btn_sales = Button(
-            LeftMenu,
+            left_menu,
             text="Sales",
             command=self.sales,
             image=self.icon_side,
@@ -148,7 +148,7 @@ class IMS:
         ).pack(side=TOP, fill=X)
 
         btn_exit = Button(
-            LeftMenu,
+            left_menu,
             text="Exit",
             image=self.icon_side,
             compound=LEFT,

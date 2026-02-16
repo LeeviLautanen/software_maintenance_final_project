@@ -28,7 +28,7 @@ class employeeClass:
         self.var_salary = StringVar()
 
         # ---------- Search Frame -------------
-        SearchFrame = LabelFrame(
+        search_frame = LabelFrame(
             self.root,
             text="Search Employee",
             font=("goudy old style", 12, "bold"),
@@ -36,11 +36,11 @@ class employeeClass:
             relief=RIDGE,
             bg="white",
         )
-        SearchFrame.place(x=250, y=20, width=600, height=70)
+        search_frame.place(x=250, y=20, width=600, height=70)
 
         # ------------ options ----------------
         cmb_search = ttk.Combobox(
-            SearchFrame,
+            search_frame,
             textvariable=self.var_searchby,
             values=("Select", "Email", "Name", "Contact"),
             state="readonly",
@@ -51,13 +51,13 @@ class employeeClass:
         cmb_search.current(0)
 
         txt_search = Entry(
-            SearchFrame,
+            search_frame,
             textvariable=self.var_searchtxt,
             font=("goudy old style", 15),
             bg="lightyellow",
         ).place(x=200, y=10)
         btn_search = Button(
-            SearchFrame,
+            search_frame,
             command=self.search,
             text="Search",
             font=("goudy old style", 15),
@@ -237,7 +237,7 @@ class employeeClass:
 
         scrolly = Scrollbar(emp_frame, orient=VERTICAL)
         scrollx = Scrollbar(emp_frame, orient=HORIZONTAL)
-        self.EmployeeTable = ttk.Treeview(
+        self.employee_table = ttk.Treeview(
             emp_frame,
             columns=(
                 "eid",
@@ -257,34 +257,34 @@ class employeeClass:
         )
         scrollx.pack(side=BOTTOM, fill=X)
         scrolly.pack(side=RIGHT, fill=Y)
-        scrollx.config(command=self.EmployeeTable.xview)
-        scrolly.config(command=self.EmployeeTable.yview)
-        self.EmployeeTable.heading("eid", text="EMP ID")
-        self.EmployeeTable.heading("name", text="Name")
-        self.EmployeeTable.heading("email", text="Email")
-        self.EmployeeTable.heading("gender", text="Gender")
-        self.EmployeeTable.heading("contact", text="Contact")
-        self.EmployeeTable.heading("dob", text="D.O.B")
-        self.EmployeeTable.heading("doj", text="D.O.J")
-        self.EmployeeTable.heading("pass", text="Password")
-        self.EmployeeTable.heading("utype", text="User Type")
-        self.EmployeeTable.heading("address", text="Address")
-        self.EmployeeTable.heading("salary", text="Salary")
-        self.EmployeeTable["show"] = "headings"
-        self.EmployeeTable.column("eid", width=90)
-        self.EmployeeTable.column("name", width=100)
-        self.EmployeeTable.column("email", width=100)
-        self.EmployeeTable.column("gender", width=100)
-        self.EmployeeTable.column("contact", width=100)
-        self.EmployeeTable.column("dob", width=100)
-        self.EmployeeTable.column("doj", width=100)
-        self.EmployeeTable.column("pass", width=100)
-        self.EmployeeTable.column("utype", width=100)
-        self.EmployeeTable.column("address", width=100)
-        self.EmployeeTable.column("salary", width=100)
+        scrollx.config(command=self.employee_table.xview)
+        scrolly.config(command=self.employee_table.yview)
+        self.employee_table.heading("eid", text="EMP ID")
+        self.employee_table.heading("name", text="Name")
+        self.employee_table.heading("email", text="Email")
+        self.employee_table.heading("gender", text="Gender")
+        self.employee_table.heading("contact", text="Contact")
+        self.employee_table.heading("dob", text="D.O.B")
+        self.employee_table.heading("doj", text="D.O.J")
+        self.employee_table.heading("pass", text="Password")
+        self.employee_table.heading("utype", text="User Type")
+        self.employee_table.heading("address", text="Address")
+        self.employee_table.heading("salary", text="Salary")
+        self.employee_table["show"] = "headings"
+        self.employee_table.column("eid", width=90)
+        self.employee_table.column("name", width=100)
+        self.employee_table.column("email", width=100)
+        self.employee_table.column("gender", width=100)
+        self.employee_table.column("contact", width=100)
+        self.employee_table.column("dob", width=100)
+        self.employee_table.column("doj", width=100)
+        self.employee_table.column("pass", width=100)
+        self.employee_table.column("utype", width=100)
+        self.employee_table.column("address", width=100)
+        self.employee_table.column("salary", width=100)
 
-        self.EmployeeTable.pack(fill=BOTH, expand=1)
-        self.EmployeeTable.bind("<ButtonRelease-1>", self.get_data)
+        self.employee_table.pack(fill=BOTH, expand=1)
+        self.employee_table.bind("<ButtonRelease-1>", self.get_data)
         self.show()
 
     # -----------------------------------------------------------------------------------------------------
@@ -339,15 +339,15 @@ class employeeClass:
         try:
             cur.execute("select * from employee")
             rows = cur.fetchall()
-            self.EmployeeTable.delete(*self.EmployeeTable.get_children())
+            self.employee_table.delete(*self.employee_table.get_children())
             for row in rows:
-                self.EmployeeTable.insert("", END, values=row)
+                self.employee_table.insert("", END, values=row)
         except Exception as ex:
             messagebox.showerror("Error", f"Error due to : {str(ex)}")
 
     def get_data(self, ev):
-        f = self.EmployeeTable.focus()
-        content = self.EmployeeTable.item(f)
+        f = self.employee_table.focus()
+        content = self.employee_table.item(f)
         row = content["values"]
         self.var_emp_id.set(row[0])
         self.var_name.set(row[1])
@@ -475,9 +475,9 @@ class employeeClass:
                 )
                 rows = cur.fetchall()
                 if len(rows) != 0:
-                    self.EmployeeTable.delete(*self.EmployeeTable.get_children())
+                    self.employee_table.delete(*self.employee_table.get_children())
                     for row in rows:
-                        self.EmployeeTable.insert("", END, values=row)
+                        self.employee_table.insert("", END, values=row)
                 else:
                     messagebox.showerror(
                         "Error", "No record found!!!", parent=self.root

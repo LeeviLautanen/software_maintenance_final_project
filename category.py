@@ -64,7 +64,7 @@ class categoryClass:
 
         scrolly = Scrollbar(cat_frame, orient=VERTICAL)
         scrollx = Scrollbar(cat_frame, orient=HORIZONTAL)
-        self.CategoryTable = ttk.Treeview(
+        self.category_table = ttk.Treeview(
             cat_frame,
             columns=("cid", "name"),
             yscrollcommand=scrolly.set,
@@ -72,16 +72,16 @@ class categoryClass:
         )
         scrollx.pack(side=BOTTOM, fill=X)
         scrolly.pack(side=RIGHT, fill=Y)
-        scrollx.config(command=self.CategoryTable.xview)
-        scrolly.config(command=self.CategoryTable.yview)
-        self.CategoryTable.heading("cid", text="C ID")
-        self.CategoryTable.heading("name", text="Name")
-        self.CategoryTable["show"] = "headings"
-        self.CategoryTable.column("cid", width=90)
-        self.CategoryTable.column("name", width=100)
+        scrollx.config(command=self.category_table.xview)
+        scrolly.config(command=self.category_table.yview)
+        self.category_table.heading("cid", text="C ID")
+        self.category_table.heading("name", text="Name")
+        self.category_table["show"] = "headings"
+        self.category_table.column("cid", width=90)
+        self.category_table.column("name", width=100)
 
-        self.CategoryTable.pack(fill=BOTH, expand=1)
-        self.CategoryTable.bind("<ButtonRelease-1>", self.get_data)
+        self.category_table.pack(fill=BOTH, expand=1)
+        self.category_table.bind("<ButtonRelease-1>", self.get_data)
         self.show()
 
         # ----------------- images ---------------------
@@ -134,9 +134,9 @@ class categoryClass:
         try:
             cur.execute("select * from category")
             rows = cur.fetchall()
-            self.CategoryTable.delete(*self.CategoryTable.get_children())
+            self.category_table.delete(*self.category_table.get_children())
             for row in rows:
-                self.CategoryTable.insert("", END, values=row)
+                self.category_table.insert("", END, values=row)
         except Exception as ex:
             messagebox.showerror("Error", f"Error due to : {str(ex)}")
 
@@ -145,8 +145,8 @@ class categoryClass:
         self.show()
 
     def get_data(self, ev):
-        f = self.CategoryTable.focus()
-        content = self.CategoryTable.item(f)
+        f = self.category_table.focus()
+        content = self.category_table.item(f)
         row = content["values"]
         self.var_cat_id.set(row[0])
         self.var_name.set(row[1])

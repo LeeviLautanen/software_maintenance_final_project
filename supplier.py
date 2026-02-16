@@ -135,7 +135,7 @@ class supplierClass:
 
         scrolly = Scrollbar(sup_frame, orient=VERTICAL)
         scrollx = Scrollbar(sup_frame, orient=HORIZONTAL)
-        self.SupplierTable = ttk.Treeview(
+        self.supplier_table = ttk.Treeview(
             sup_frame,
             columns=("invoice", "name", "contact", "desc"),
             yscrollcommand=scrolly.set,
@@ -143,20 +143,20 @@ class supplierClass:
         )
         scrollx.pack(side=BOTTOM, fill=X)
         scrolly.pack(side=RIGHT, fill=Y)
-        scrollx.config(command=self.SupplierTable.xview)
-        scrolly.config(command=self.SupplierTable.yview)
-        self.SupplierTable.heading("invoice", text="Invoice")
-        self.SupplierTable.heading("name", text="Name")
-        self.SupplierTable.heading("contact", text="Contact")
-        self.SupplierTable.heading("desc", text="Description")
-        self.SupplierTable["show"] = "headings"
-        self.SupplierTable.column("invoice", width=90)
-        self.SupplierTable.column("name", width=100)
-        self.SupplierTable.column("contact", width=100)
-        self.SupplierTable.column("desc", width=100)
+        scrollx.config(command=self.supplier_table.xview)
+        scrolly.config(command=self.supplier_table.yview)
+        self.supplier_table.heading("invoice", text="Invoice")
+        self.supplier_table.heading("name", text="Name")
+        self.supplier_table.heading("contact", text="Contact")
+        self.supplier_table.heading("desc", text="Description")
+        self.supplier_table["show"] = "headings"
+        self.supplier_table.column("invoice", width=90)
+        self.supplier_table.column("name", width=100)
+        self.supplier_table.column("contact", width=100)
+        self.supplier_table.column("desc", width=100)
 
-        self.SupplierTable.pack(fill=BOTH, expand=1)
-        self.SupplierTable.bind("<ButtonRelease-1>", self.get_data)
+        self.supplier_table.pack(fill=BOTH, expand=1)
+        self.supplier_table.bind("<ButtonRelease-1>", self.get_data)
         self.show()
 
     # -----------------------------------------------------------------------------------------------------
@@ -203,15 +203,15 @@ class supplierClass:
         try:
             cur.execute("select * from supplier")
             rows = cur.fetchall()
-            self.SupplierTable.delete(*self.SupplierTable.get_children())
+            self.supplier_table.delete(*self.supplier_table.get_children())
             for row in rows:
-                self.SupplierTable.insert("", END, values=row)
+                self.supplier_table.insert("", END, values=row)
         except Exception as ex:
             messagebox.showerror("Error", f"Error due to : {str(ex)}")
 
     def get_data(self, ev):
-        f = self.SupplierTable.focus()
-        content = self.SupplierTable.item(f)
+        f = self.supplier_table.focus()
+        content = self.supplier_table.item(f)
         row = content["values"]
         self.var_sup_invoice.set(row[0])
         self.var_name.set(row[1])
@@ -313,8 +313,8 @@ class supplierClass:
                 )
                 row = cur.fetchone()
                 if row != None:
-                    self.SupplierTable.delete(*self.SupplierTable.get_children())
-                    self.SupplierTable.insert("", END, values=row)
+                    self.supplier_table.delete(*self.supplier_table.get_children())
+                    self.supplier_table.insert("", END, values=row)
                 else:
                     messagebox.showerror(
                         "Error", "No record found!!!", parent=self.root

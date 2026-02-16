@@ -26,12 +26,12 @@ class productClass:
         self.var_searchby = StringVar()
         self.var_searchtxt = StringVar()
 
-        product_Frame = Frame(self.root, bd=2, relief=RIDGE, bg="white")
-        product_Frame.place(x=10, y=10, width=450, height=480)
+        product_left_frame = Frame(self.root, bd=2, relief=RIDGE, bg="white")
+        product_left_frame.place(x=10, y=10, width=450, height=480)
 
         # ------------ title --------------
         title = Label(
-            product_Frame,
+            product_left_frame,
             text="Manage Product Details",
             font=("goudy old style", 18),
             bg="#0f4d7d",
@@ -39,26 +39,35 @@ class productClass:
         ).pack(side=TOP, fill=X)
 
         lbl_category = Label(
-            product_Frame, text="Category", font=("goudy old style", 18), bg="white"
+            product_left_frame,
+            text="Category",
+            font=("goudy old style", 18),
+            bg="white",
         ).place(x=30, y=60)
         lbl_supplier = Label(
-            product_Frame, text="Supplier", font=("goudy old style", 18), bg="white"
+            product_left_frame,
+            text="Supplier",
+            font=("goudy old style", 18),
+            bg="white",
         ).place(x=30, y=110)
         lbl_product_name = Label(
-            product_Frame, text="Name", font=("goudy old style", 18), bg="white"
+            product_left_frame, text="Name", font=("goudy old style", 18), bg="white"
         ).place(x=30, y=160)
         lbl_price = Label(
-            product_Frame, text="Price", font=("goudy old style", 18), bg="white"
+            product_left_frame, text="Price", font=("goudy old style", 18), bg="white"
         ).place(x=30, y=210)
         lbl_qty = Label(
-            product_Frame, text="Quantity", font=("goudy old style", 18), bg="white"
+            product_left_frame,
+            text="Quantity",
+            font=("goudy old style", 18),
+            bg="white",
         ).place(x=30, y=260)
         lbl_status = Label(
-            product_Frame, text="Status", font=("goudy old style", 18), bg="white"
+            product_left_frame, text="Status", font=("goudy old style", 18), bg="white"
         ).place(x=30, y=310)
 
         cmb_cat = ttk.Combobox(
-            product_Frame,
+            product_left_frame,
             textvariable=self.var_cat,
             values=self.cat_list,
             state="readonly",
@@ -69,7 +78,7 @@ class productClass:
         cmb_cat.current(0)
 
         cmb_sup = ttk.Combobox(
-            product_Frame,
+            product_left_frame,
             textvariable=self.var_sup,
             values=self.sup_list,
             state="readonly",
@@ -80,26 +89,26 @@ class productClass:
         cmb_sup.current(0)
 
         txt_name = Entry(
-            product_Frame,
+            product_left_frame,
             textvariable=self.var_name,
             font=("goudy old style", 15),
             bg="lightyellow",
         ).place(x=150, y=160, width=200)
         txt_price = Entry(
-            product_Frame,
+            product_left_frame,
             textvariable=self.var_price,
             font=("goudy old style", 15),
             bg="lightyellow",
         ).place(x=150, y=210, width=200)
         txt_qty = Entry(
-            product_Frame,
+            product_left_frame,
             textvariable=self.var_qty,
             font=("goudy old style", 15),
             bg="lightyellow",
         ).place(x=150, y=260, width=200)
 
         cmb_status = ttk.Combobox(
-            product_Frame,
+            product_left_frame,
             textvariable=self.var_status,
             values=("Active", "Inactive"),
             state="readonly",
@@ -111,7 +120,7 @@ class productClass:
 
         # -------------- buttons -----------------
         btn_add = Button(
-            product_Frame,
+            product_left_frame,
             text="Save",
             command=self.add,
             font=("goudy old style", 15),
@@ -120,7 +129,7 @@ class productClass:
             cursor="hand2",
         ).place(x=10, y=400, width=100, height=40)
         btn_update = Button(
-            product_Frame,
+            product_left_frame,
             text="Update",
             command=self.update,
             font=("goudy old style", 15),
@@ -129,7 +138,7 @@ class productClass:
             cursor="hand2",
         ).place(x=120, y=400, width=100, height=40)
         btn_delete = Button(
-            product_Frame,
+            product_left_frame,
             text="Delete",
             command=self.delete,
             font=("goudy old style", 15),
@@ -138,7 +147,7 @@ class productClass:
             cursor="hand2",
         ).place(x=230, y=400, width=100, height=40)
         btn_clear = Button(
-            product_Frame,
+            product_left_frame,
             text="Clear",
             command=self.clear,
             font=("goudy old style", 15),
@@ -148,7 +157,7 @@ class productClass:
         ).place(x=340, y=400, width=100, height=40)
 
         # ---------- Search Frame -------------
-        SearchFrame = LabelFrame(
+        search_frame = LabelFrame(
             self.root,
             text="Search Product",
             font=("goudy old style", 12, "bold"),
@@ -156,11 +165,11 @@ class productClass:
             relief=RIDGE,
             bg="white",
         )
-        SearchFrame.place(x=480, y=10, width=600, height=80)
+        search_frame.place(x=480, y=10, width=600, height=80)
 
         # ------------ options ----------------
         cmb_search = ttk.Combobox(
-            SearchFrame,
+            search_frame,
             textvariable=self.var_searchby,
             values=("Select", "Category", "Supplier", "Name"),
             state="readonly",
@@ -171,13 +180,13 @@ class productClass:
         cmb_search.current(0)
 
         txt_search = Entry(
-            SearchFrame,
+            search_frame,
             textvariable=self.var_searchtxt,
             font=("goudy old style", 15),
             bg="lightyellow",
         ).place(x=200, y=10)
         btn_search = Button(
-            SearchFrame,
+            search_frame,
             text="Search",
             command=self.search,
             font=("goudy old style", 15),
@@ -192,7 +201,7 @@ class productClass:
 
         scrolly = Scrollbar(product_frame, orient=VERTICAL)
         scrollx = Scrollbar(product_frame, orient=HORIZONTAL)
-        self.ProductTable = ttk.Treeview(
+        self.product_table = ttk.Treeview(
             product_frame,
             columns=("pid", "Category", "Supplier", "name", "price", "qty", "status"),
             yscrollcommand=scrolly.set,
@@ -200,26 +209,26 @@ class productClass:
         )
         scrollx.pack(side=BOTTOM, fill=X)
         scrolly.pack(side=RIGHT, fill=Y)
-        scrollx.config(command=self.ProductTable.xview)
-        scrolly.config(command=self.ProductTable.yview)
-        self.ProductTable.heading("pid", text="P ID")
-        self.ProductTable.heading("Category", text="Category")
-        self.ProductTable.heading("Supplier", text="Suppler")
-        self.ProductTable.heading("name", text="Name")
-        self.ProductTable.heading("price", text="Price")
-        self.ProductTable.heading("qty", text="Quantity")
-        self.ProductTable.heading("status", text="Status")
-        self.ProductTable["show"] = "headings"
-        self.ProductTable.column("pid", width=90)
-        self.ProductTable.column("Category", width=100)
-        self.ProductTable.column("Supplier", width=100)
-        self.ProductTable.column("name", width=100)
-        self.ProductTable.column("price", width=100)
-        self.ProductTable.column("qty", width=100)
-        self.ProductTable.column("status", width=100)
+        scrollx.config(command=self.product_table.xview)
+        scrolly.config(command=self.product_table.yview)
+        self.product_table.heading("pid", text="P ID")
+        self.product_table.heading("Category", text="Category")
+        self.product_table.heading("Supplier", text="Suppler")
+        self.product_table.heading("name", text="Name")
+        self.product_table.heading("price", text="Price")
+        self.product_table.heading("qty", text="Quantity")
+        self.product_table.heading("status", text="Status")
+        self.product_table["show"] = "headings"
+        self.product_table.column("pid", width=90)
+        self.product_table.column("Category", width=100)
+        self.product_table.column("Supplier", width=100)
+        self.product_table.column("name", width=100)
+        self.product_table.column("price", width=100)
+        self.product_table.column("qty", width=100)
+        self.product_table.column("status", width=100)
 
-        self.ProductTable.pack(fill=BOTH, expand=1)
-        self.ProductTable.bind("<ButtonRelease-1>", self.get_data)
+        self.product_table.pack(fill=BOTH, expand=1)
+        self.product_table.bind("<ButtonRelease-1>", self.get_data)
         self.show()
         self.fetch_cat_sup()
 
@@ -296,15 +305,15 @@ class productClass:
         try:
             cur.execute("select * from product")
             rows = cur.fetchall()
-            self.ProductTable.delete(*self.ProductTable.get_children())
+            self.product_table.delete(*self.product_table.get_children())
             for row in rows:
-                self.ProductTable.insert("", END, values=row)
+                self.product_table.insert("", END, values=row)
         except Exception as ex:
             messagebox.showerror("Error", f"Error due to : {str(ex)}")
 
     def get_data(self, ev):
-        f = self.ProductTable.focus()
-        content = self.ProductTable.item(f)
+        f = self.product_table.focus()
+        content = self.product_table.item(f)
         row = content["values"]
         self.var_pid.set(row[0])
         self.var_cat.set(row[1])
@@ -411,9 +420,9 @@ class productClass:
                 )
                 rows = cur.fetchall()
                 if len(rows) != 0:
-                    self.ProductTable.delete(*self.ProductTable.get_children())
+                    self.product_table.delete(*self.product_table.get_children())
                     for row in rows:
-                        self.ProductTable.insert("", END, values=row)
+                        self.product_table.insert("", END, values=row)
                 else:
                     messagebox.showerror(
                         "Error", "No record found!!!", parent=self.root
