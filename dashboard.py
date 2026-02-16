@@ -77,144 +77,28 @@ class IMS:
 
         self.icon_side = PhotoImage(file=os.path.join(IMAGE_DIR, "side.png"))
 
-        btn_employee = Button(
-            left_menu,
-            text="Employee",
-            command=self.employee,
-            image=self.icon_side,
-            compound=LEFT,
-            padx=5,
-            anchor="w",
-            font=("times new roman", 20, "bold"),
-            bg="white",
-            bd=3,
-            cursor="hand2",
-        ).pack(side=TOP, fill=X)
-
-        btn_supplier = Button(
-            left_menu,
-            text="Supplier",
-            command=self.supplier,
-            image=self.icon_side,
-            compound=LEFT,
-            padx=5,
-            anchor="w",
-            font=("times new roman", 20, "bold"),
-            bg="white",
-            bd=3,
-            cursor="hand2",
-        ).pack(side=TOP, fill=X)
-
-        btn_category = Button(
-            left_menu,
-            text="Category",
-            command=self.category,
-            image=self.icon_side,
-            compound=LEFT,
-            padx=5,
-            anchor="w",
-            font=("times new roman", 20, "bold"),
-            bg="white",
-            bd=3,
-            cursor="hand2",
-        ).pack(side=TOP, fill=X)
-
-        btn_product = Button(
-            left_menu,
-            text="Products",
-            command=self.product,
-            image=self.icon_side,
-            compound=LEFT,
-            padx=5,
-            anchor="w",
-            font=("times new roman", 20, "bold"),
-            bg="white",
-            bd=3,
-            cursor="hand2",
-        ).pack(side=TOP, fill=X)
-
-        btn_sales = Button(
-            left_menu,
-            text="Sales",
-            command=self.sales,
-            image=self.icon_side,
-            compound=LEFT,
-            padx=5,
-            anchor="w",
-            font=("times new roman", 20, "bold"),
-            bg="white",
-            bd=3,
-            cursor="hand2",
-        ).pack(side=TOP, fill=X)
-
-        btn_exit = Button(
-            left_menu,
-            text="Exit",
-            image=self.icon_side,
-            compound=LEFT,
-            padx=5,
-            anchor="w",
-            font=("times new roman", 20, "bold"),
-            bg="white",
-            bd=3,
-            cursor="hand2",
-            command=self.root.destroy,
-        ).pack(side=TOP, fill=X)
+        btn_employee = self._create_menu_btn(left_menu, "Employee", self.employee)
+        btn_supplier = self._create_menu_btn(left_menu, "Supplier", self.supplier)
+        btn_category = self._create_menu_btn(left_menu, "Category", self.category)
+        btn_product = self._create_menu_btn(left_menu, "Products", self.product)
+        btn_sales = self._create_menu_btn(left_menu, "Sales", self.sales)
+        btn_exit = self._create_menu_btn(left_menu, "Exit", self.root.destroy)
 
         # ----------- content ----------------
-        self.lbl_employee = Label(
-            self.root,
-            text="Total Employee\n{ 0 }",
-            bd=5,
-            relief=RIDGE,
-            bg="#33bbf9",
-            fg="white",
-            font=("goudy old style", 20, "bold"),
-        )
+
+        self.lbl_employee = self._create_content_lbl("Total Employee\n{ 0 }", "#33bbf9")
         self.lbl_employee.place(x=300, y=120, height=150, width=300)
 
-        self.lbl_supplier = Label(
-            self.root,
-            text="Total Supplier\n{ 0 }",
-            bd=5,
-            relief=RIDGE,
-            bg="#ff5722",
-            fg="white",
-            font=("goudy old style", 20, "bold"),
-        )
+        self.lbl_supplier = self._create_content_lbl("Total Supplier\n{ 0 }", "#ff5722")
         self.lbl_supplier.place(x=650, y=120, height=150, width=300)
 
-        self.lbl_category = Label(
-            self.root,
-            text="Total Category\n{ 0 }",
-            bd=5,
-            relief=RIDGE,
-            bg="#009688",
-            fg="white",
-            font=("goudy old style", 20, "bold"),
-        )
+        self.lbl_category = self._create_content_lbl("Total Category\n{ 0 }", "#009688")
         self.lbl_category.place(x=1000, y=120, height=150, width=300)
 
-        self.lbl_product = Label(
-            self.root,
-            text="Total Product\n{ 0 }",
-            bd=5,
-            relief=RIDGE,
-            bg="#607d8b",
-            fg="white",
-            font=("goudy old style", 20, "bold"),
-        )
+        self.lbl_product = self._create_content_lbl("Total Product\n{ 0 }", "#607d8b")
         self.lbl_product.place(x=300, y=300, height=150, width=300)
 
-        self.lbl_sales = Label(
-            self.root,
-            text="Total Sales\n{ 0 }",
-            bd=5,
-            relief=RIDGE,
-            bg="#ffc107",
-            fg="white",
-            font=("goudy old style", 20, "bold"),
-        )
+        self.lbl_sales = self._create_content_lbl("Total Sales\n{ 0 }", "#ffc107")
         self.lbl_sales.place(x=650, y=300, height=150, width=300)
 
         # ------------ footer -----------------
@@ -229,6 +113,34 @@ class IMS:
         self.update_content()
 
     # -------------- functions ----------------
+    def _create_menu_btn(self, frame, text, command):
+        newButton = Button(
+            frame,
+            text=text,
+            command=command,
+            image=self.icon_side,
+            compound=LEFT,
+            padx=5,
+            anchor="w",
+            font=("times new roman", 20, "bold"),
+            bg="white",
+            bd=3,
+            cursor="hand2",
+        )
+        newButton.pack(side=TOP, fill=X)
+        return newButton
+
+    def _create_content_lbl(self, text, bg):
+        return Label(
+            self.root,
+            text=text,
+            bd=5,
+            relief=RIDGE,
+            bg=bg,
+            fg="white",
+            font=("goudy old style", 20, "bold"),
+        )
+
     def employee(self):
         self.new_win = Toplevel(self.root)
         self.new_obj = employeeClass(self.new_win)

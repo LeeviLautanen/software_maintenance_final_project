@@ -10,7 +10,7 @@ Changes done to the base project listed per module.
 
 ### 1. dashboard.py
 
-- No changes
+- Moved left menu button and content label creation into functions to reduce duplication
 
 ### 2. employee.py
 
