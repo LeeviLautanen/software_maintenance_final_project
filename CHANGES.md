@@ -22,3 +22,5 @@ Changes done to the base project listed per module.
 ### 7. creat_db.py
 
 ### 8. billing.py
+
+- Removed redundant code from keypad creation

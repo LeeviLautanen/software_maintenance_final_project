@@ -1,5 +1,4 @@
 from tkinter import *
-from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
 import sqlite3
 import time
@@ -199,169 +198,35 @@ class billClass:
         )
         self.txt_cal_input.grid(row=0, columnspan=4)
 
-        btn_7 = Button(
-            cal_frame,
-            text=7,
-            font=("arial", 15, "bold"),
-            command=lambda: self.get_input(7),
-            bd=5,
-            width=4,
-            pady=10,
-            cursor="hand2",
-        ).grid(row=1, column=0)
-        btn_8 = Button(
-            cal_frame,
-            text=8,
-            font=("arial", 15, "bold"),
-            command=lambda: self.get_input(8),
-            bd=5,
-            width=4,
-            pady=10,
-            cursor="hand2",
-        ).grid(row=1, column=1)
-        btn_9 = Button(
-            cal_frame,
-            text=9,
-            font=("arial", 15, "bold"),
-            command=lambda: self.get_input(9),
-            bd=5,
-            width=4,
-            pady=10,
-            cursor="hand2",
-        ).grid(row=1, column=2)
-        btn_sum = Button(
-            cal_frame,
-            text="+",
-            font=("arial", 15, "bold"),
-            command=lambda: self.get_input("+"),
-            bd=5,
-            width=4,
-            pady=10,
-            cursor="hand2",
-        ).grid(row=1, column=3)
+        btn_7 = self.create_calc_button(cal_frame, 7, lambda: self.get_input(7), 1, 0)
+        btn_8 = self.create_calc_button(cal_frame, 8, lambda: self.get_input(8), 1, 1)
+        btn_9 = self.create_calc_button(cal_frame, 9, lambda: self.get_input(9), 1, 2)
+        btn_sum = self.create_calc_button(
+            cal_frame, "+", lambda: self.get_input("+"), 1, 3
+        )
 
-        btn_4 = Button(
-            cal_frame,
-            text=4,
-            font=("arial", 15, "bold"),
-            command=lambda: self.get_input(4),
-            bd=5,
-            width=4,
-            pady=10,
-            cursor="hand2",
-        ).grid(row=2, column=0)
-        btn_5 = Button(
-            cal_frame,
-            text=5,
-            font=("arial", 15, "bold"),
-            command=lambda: self.get_input(5),
-            bd=5,
-            width=4,
-            pady=10,
-            cursor="hand2",
-        ).grid(row=2, column=1)
-        btn_6 = Button(
-            cal_frame,
-            text=6,
-            font=("arial", 15, "bold"),
-            command=lambda: self.get_input(6),
-            bd=5,
-            width=4,
-            pady=10,
-            cursor="hand2",
-        ).grid(row=2, column=2)
-        btn_sub = Button(
-            cal_frame,
-            text="-",
-            font=("arial", 15, "bold"),
-            command=lambda: self.get_input("-"),
-            bd=5,
-            width=4,
-            pady=10,
-            cursor="hand2",
-        ).grid(row=2, column=3)
+        btn_4 = self.create_calc_button(cal_frame, 4, lambda: self.get_input(4), 2, 0)
+        btn_5 = self.create_calc_button(cal_frame, 5, lambda: self.get_input(5), 2, 1)
+        btn_6 = self.create_calc_button(cal_frame, 6, lambda: self.get_input(6), 2, 2)
+        btn_sub = self.create_calc_button(
+            cal_frame, "-", lambda: self.get_input("-"), 2, 3
+        )
 
-        btn_1 = Button(
-            cal_frame,
-            text=1,
-            font=("arial", 15, "bold"),
-            command=lambda: self.get_input(1),
-            bd=5,
-            width=4,
-            pady=10,
-            cursor="hand2",
-        ).grid(row=3, column=0)
-        btn_2 = Button(
-            cal_frame,
-            text=2,
-            font=("arial", 15, "bold"),
-            command=lambda: self.get_input(2),
-            bd=5,
-            width=4,
-            pady=10,
-            cursor="hand2",
-        ).grid(row=3, column=1)
-        btn_3 = Button(
-            cal_frame,
-            text=3,
-            font=("arial", 15, "bold"),
-            command=lambda: self.get_input(3),
-            bd=5,
-            width=4,
-            pady=10,
-            cursor="hand2",
-        ).grid(row=3, column=2)
-        btn_mul = Button(
-            cal_frame,
-            text="*",
-            font=("arial", 15, "bold"),
-            command=lambda: self.get_input("*"),
-            bd=5,
-            width=4,
-            pady=10,
-            cursor="hand2",
-        ).grid(row=3, column=3)
+        btn_1 = self.create_calc_button(cal_frame, 1, lambda: self.get_input(1), 3, 0)
+        btn_2 = self.create_calc_button(cal_frame, 2, lambda: self.get_input(2), 3, 1)
+        btn_3 = self.create_calc_button(cal_frame, 3, lambda: self.get_input(3), 3, 2)
+        btn_mul = self.create_calc_button(
+            cal_frame, "*", lambda: self.get_input("*"), 3, 3
+        )
 
-        btn_0 = Button(
-            cal_frame,
-            text=0,
-            font=("arial", 15, "bold"),
-            command=lambda: self.get_input(0),
-            bd=5,
-            width=4,
-            pady=15,
-            cursor="hand2",
-        ).grid(row=4, column=0)
-        btn_c = Button(
-            cal_frame,
-            text="C",
-            font=("arial", 15, "bold"),
-            command=self.clear_cal,
-            bd=5,
-            width=4,
-            pady=15,
-            cursor="hand2",
-        ).grid(row=4, column=1)
-        btn_eq = Button(
-            cal_frame,
-            text="=",
-            font=("arial", 15, "bold"),
-            command=self.perform_cal,
-            bd=5,
-            width=4,
-            pady=15,
-            cursor="hand2",
-        ).grid(row=4, column=2)
-        btn_div = Button(
-            cal_frame,
-            text="/",
-            font=("arial", 15, "bold"),
-            command=lambda: self.get_input("/"),
-            bd=5,
-            width=4,
-            pady=15,
-            cursor="hand2",
-        ).grid(row=4, column=3)
+        btn_0 = self.create_calc_button(cal_frame, 0, lambda: self.get_input(0), 4, 0)
+        btn_c = self.create_calc_button(cal_frame, "C", self.clear_cal, 4, 1)
+        btn_eq = self.create_calc_button(
+            cal_frame, "=", lambda: self.perform_cal(), 4, 2
+        )
+        btn_div = self.create_calc_button(
+            cal_frame, "/", lambda: self.get_input("/"), 4, 3
+        )
 
         # ------------------ cart frame --------------------
         cart_frame = Frame(cal_cart_frame, bd=3, relief=RIDGE)
@@ -478,7 +343,7 @@ class billClass:
         bill_frame = Frame(self.root, bd=2, relief=RIDGE, bg="white")
         bill_frame.place(x=953, y=110, width=400, height=410)
 
-        BTitle = Label(
+        lbl_bill_area = Label(
             bill_frame,
             text="Customer Bill Area",
             font=("goudy old style", 20, "bold"),
@@ -561,6 +426,18 @@ class billClass:
         self.update_date_time()
 
     # ---------------------- all functions ------------------------------
+    def create_calc_button(self, frame, text, function, row, col):
+        return Button(
+            frame,
+            text=text,
+            font=("arial", 15, "bold"),
+            command=function,
+            bd=5,
+            width=4,
+            pady=15,
+            cursor="hand2",
+        ).grid(row=row, column=col)
+
     def get_input(self, num):
         xnum = self.var_cal_input.get() + str(num)
         self.var_cal_input.set(xnum)
