@@ -27,7 +27,7 @@ Changes done to the base project listed per module.
 
 ### 5. category.py
 
-- No changes
+- Changed "Add" button to PascalCase to match the rest of the buttons
 
 ### 6. sales.py
 

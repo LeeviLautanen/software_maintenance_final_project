@@ -198,33 +198,31 @@ class billClass:
         )
         self.txt_cal_input.grid(row=0, columnspan=4)
 
-        btn_7 = self.create_calc_button(cal_frame, 7, lambda: self.get_input(7), 1, 0)
-        btn_8 = self.create_calc_button(cal_frame, 8, lambda: self.get_input(8), 1, 1)
-        btn_9 = self.create_calc_button(cal_frame, 9, lambda: self.get_input(9), 1, 2)
-        btn_sum = self.create_calc_button(
+        btn_7 = self._create_calc_btn(cal_frame, 7, lambda: self.get_input(7), 1, 0)
+        btn_8 = self._create_calc_btn(cal_frame, 8, lambda: self.get_input(8), 1, 1)
+        btn_9 = self._create_calc_btn(cal_frame, 9, lambda: self.get_input(9), 1, 2)
+        btn_sum = self._create_calc_btn(
             cal_frame, "+", lambda: self.get_input("+"), 1, 3
         )
 
-        btn_4 = self.create_calc_button(cal_frame, 4, lambda: self.get_input(4), 2, 0)
-        btn_5 = self.create_calc_button(cal_frame, 5, lambda: self.get_input(5), 2, 1)
-        btn_6 = self.create_calc_button(cal_frame, 6, lambda: self.get_input(6), 2, 2)
-        btn_sub = self.create_calc_button(
+        btn_4 = self._create_calc_btn(cal_frame, 4, lambda: self.get_input(4), 2, 0)
+        btn_5 = self._create_calc_btn(cal_frame, 5, lambda: self.get_input(5), 2, 1)
+        btn_6 = self._create_calc_btn(cal_frame, 6, lambda: self.get_input(6), 2, 2)
+        btn_sub = self._create_calc_btn(
             cal_frame, "-", lambda: self.get_input("-"), 2, 3
         )
 
-        btn_1 = self.create_calc_button(cal_frame, 1, lambda: self.get_input(1), 3, 0)
-        btn_2 = self.create_calc_button(cal_frame, 2, lambda: self.get_input(2), 3, 1)
-        btn_3 = self.create_calc_button(cal_frame, 3, lambda: self.get_input(3), 3, 2)
-        btn_mul = self.create_calc_button(
+        btn_1 = self._create_calc_btn(cal_frame, 1, lambda: self.get_input(1), 3, 0)
+        btn_2 = self._create_calc_btn(cal_frame, 2, lambda: self.get_input(2), 3, 1)
+        btn_3 = self._create_calc_btn(cal_frame, 3, lambda: self.get_input(3), 3, 2)
+        btn_mul = self._create_calc_btn(
             cal_frame, "*", lambda: self.get_input("*"), 3, 3
         )
 
-        btn_0 = self.create_calc_button(cal_frame, 0, lambda: self.get_input(0), 4, 0)
-        btn_c = self.create_calc_button(cal_frame, "C", self.clear_cal, 4, 1)
-        btn_eq = self.create_calc_button(
-            cal_frame, "=", lambda: self.perform_cal(), 4, 2
-        )
-        btn_div = self.create_calc_button(
+        btn_0 = self._create_calc_btn(cal_frame, 0, lambda: self.get_input(0), 4, 0)
+        btn_c = self._create_calc_btn(cal_frame, "C", self.clear_cal, 4, 1)
+        btn_eq = self._create_calc_btn(cal_frame, "=", lambda: self.perform_cal(), 4, 2)
+        btn_div = self._create_calc_btn(
             cal_frame, "/", lambda: self.get_input("/"), 4, 3
         )
 
@@ -425,7 +423,7 @@ class billClass:
         self.update_date_time()
 
     # ---------------------- all functions ------------------------------
-    def create_calc_button(self, frame, text, function, row, col):
+    def _create_calc_btn(self, frame, text, function, row, col):
         return Button(
             frame,
             text=text,

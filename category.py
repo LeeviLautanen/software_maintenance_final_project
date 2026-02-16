@@ -45,7 +45,7 @@ class categoryClass:
 
         btn_add = Button(
             self.root,
-            text="ADD",
+            text="Add",
             command=self.add,
             font=("goudy old style", 15),
             bg="#4caf50",
