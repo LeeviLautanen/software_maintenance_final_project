@@ -1,0 +1,11 @@
+[tool.ruff.lint]
+ignore = [
+    "F401", # Disable "module imported but unused" warnings
+    "F403", # Disable "from module import *" warnings
+    "F405", # Disable "name may be undefined, or defined from star imports" warnings
+    "F841", # Disable "local variable is assigned to but never used" warnings
+    "F541", # Disable "f-string is missing placeholders" warnings
+    "E712", # Disable "comparison to False should be 'if cond is False:'" warnings
+    "E711", # Disable "comparison to None should be 'if cond is None:'" warnings
+]
+
