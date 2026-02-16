@@ -12,6 +12,7 @@ BILL_DIR = os.path.join(BASE_DIR, "bill")
 os.makedirs(BILL_DIR, exist_ok=True)
 # ---------------------------------------------------
 
+
 class salesClass:
     def __init__(self, root):
         self.root = root
@@ -31,25 +32,39 @@ class salesClass:
             bg="#184a45",
             fg="white",
             bd=3,
-            relief=RIDGE
+            relief=RIDGE,
         ).pack(side=TOP, fill=X, padx=10, pady=20)
 
-        lbl_invoice = Label(self.root, text="Invoice No.", font=("times new roman", 15), bg="white")
+        lbl_invoice = Label(
+            self.root, text="Invoice No.", font=("times new roman", 15), bg="white"
+        )
         lbl_invoice.place(x=50, y=100)
 
-        txt_invoice = Entry(self.root, textvariable=self.var_invoice, font=("times new roman", 15), bg="lightyellow")
+        txt_invoice = Entry(
+            self.root,
+            textvariable=self.var_invoice,
+            font=("times new roman", 15),
+            bg="lightyellow",
+        )
         txt_invoice.place(x=160, y=100, width=180, height=28)
 
         btn_search = Button(
-            self.root, text="Search", command=self.search,
+            self.root,
+            text="Search",
+            command=self.search,
             font=("times new roman", 15, "bold"),
-            bg="#2196f3", fg="white", cursor="hand2"
+            bg="#2196f3",
+            fg="white",
+            cursor="hand2",
         ).place(x=360, y=100, width=120, height=28)
 
         btn_clear = Button(
-            self.root, text="Clear", command=self.clear,
+            self.root,
+            text="Clear",
+            command=self.clear,
             font=("times new roman", 15, "bold"),
-            bg="lightgray", cursor="hand2"
+            bg="lightgray",
+            cursor="hand2",
         ).place(x=490, y=100, width=120, height=28)
 
         # ----------------- bill list -------------------
@@ -58,8 +73,10 @@ class salesClass:
 
         scrolly = Scrollbar(sales_Frame, orient=VERTICAL)
         self.Sales_List = Listbox(
-            sales_Frame, font=("goudy old style", 15),
-            bg="white", yscrollcommand=scrolly.set
+            sales_Frame,
+            font=("goudy old style", 15),
+            bg="white",
+            yscrollcommand=scrolly.set,
         )
         scrolly.pack(side=RIGHT, fill=Y)
         scrolly.config(command=self.Sales_List.yview)
@@ -71,8 +88,10 @@ class salesClass:
         bill_Frame.place(x=280, y=140, width=410, height=330)
 
         lbl_title2 = Label(
-            bill_Frame, text="Customer Bill Area",
-            font=("goudy old style", 20), bg="orange"
+            bill_Frame,
+            text="Customer Bill Area",
+            font=("goudy old style", 20),
+            bg="orange",
         ).pack(side=TOP, fill=X)
 
         scrolly2 = Scrollbar(bill_Frame, orient=VERTICAL)
@@ -98,9 +117,9 @@ class salesClass:
         self.Sales_List.delete(0, END)
 
         for i in os.listdir(BILL_DIR):
-            if i.split('.')[-1] == 'txt':
+            if i.split(".")[-1] == "txt":
                 self.Sales_List.insert(END, i)
-                self.blll_list.append(i.split('.')[0])
+                self.blll_list.append(i.split(".")[0])
 
     def get_data(self, ev):
         index_ = self.Sales_List.curselection()
@@ -108,22 +127,24 @@ class salesClass:
             return
 
         file_name = self.Sales_List.get(index_)
-        self.bill_area.delete('1.0', END)
+        self.bill_area.delete("1.0", END)
 
         file_path = os.path.join(BILL_DIR, file_name)
-        with open(file_path, 'r') as fp:
+        with open(file_path, "r") as fp:
             for i in fp:
                 self.bill_area.insert(END, i)
 
     def search(self):
         if self.var_invoice.get() == "":
-            messagebox.showerror("Error", "Invoice no. should be required", parent=self.root)
+            messagebox.showerror(
+                "Error", "Invoice no. should be required", parent=self.root
+            )
         else:
             if self.var_invoice.get() in self.blll_list:
                 file_path = os.path.join(BILL_DIR, f"{self.var_invoice.get()}.txt")
-                self.bill_area.delete('1.0', END)
+                self.bill_area.delete("1.0", END)
 
-                with open(file_path, 'r') as fp:
+                with open(file_path, "r") as fp:
                     for i in fp:
                         self.bill_area.insert(END, i)
             else:
@@ -131,7 +152,7 @@ class salesClass:
 
     def clear(self):
         self.show()
-        self.bill_area.delete('1.0', END)
+        self.bill_area.delete("1.0", END)
 
 
 if __name__ == "__main__":

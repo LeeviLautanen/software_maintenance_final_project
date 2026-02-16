@@ -1,6 +1,6 @@
 # Inventory-Management-System changes
 
-Changes done to the base project listed per module.
+Changes done to the base project listed per module. The entire codebase was formatted by the Ruff formatter.
 
 ### 1. dashboard.py
 
