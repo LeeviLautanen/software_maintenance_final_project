@@ -6,7 +6,7 @@ Changes done to the base project listed per module.
 
 - The entire codebase was formatted by the Ruff formatter
 - All variables have been formatted to be snake_case.
-- Moved database handling to its own file
+- Moved database handling to its own file database.py
 
 ### 1. dashboard.py
 
