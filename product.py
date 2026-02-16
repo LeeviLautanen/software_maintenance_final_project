@@ -1,7 +1,7 @@
 from tkinter import *
-from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
 from database import fetchall, execute
+from common import create_crud_buttons
 
 
 class productClass:
@@ -119,42 +119,14 @@ class productClass:
         cmb_status.current(0)
 
         # -------------- buttons -----------------
-        btn_add = Button(
-            product_left_frame,
-            text="Save",
-            command=self.add,
-            font=("goudy old style", 15),
-            bg="#2196f3",
-            fg="white",
-            cursor="hand2",
-        ).place(x=10, y=400, width=100, height=40)
-        btn_update = Button(
-            product_left_frame,
-            text="Update",
-            command=self.update,
-            font=("goudy old style", 15),
-            bg="#4caf50",
-            fg="white",
-            cursor="hand2",
-        ).place(x=120, y=400, width=100, height=40)
-        btn_delete = Button(
-            product_left_frame,
-            text="Delete",
-            command=self.delete,
-            font=("goudy old style", 15),
-            bg="#f44336",
-            fg="white",
-            cursor="hand2",
-        ).place(x=230, y=400, width=100, height=40)
-        btn_clear = Button(
-            product_left_frame,
-            text="Clear",
-            command=self.clear,
-            font=("goudy old style", 15),
-            bg="#607d8b",
-            fg="white",
-            cursor="hand2",
-        ).place(x=340, y=400, width=100, height=40)
+
+        btn_add, btn_update, btn_delete, btn_clear = create_crud_buttons(
+            product_left_frame, self.add, self.update, self.delete, self.clear
+        )
+        btn_add.place(x=10, y=400, width=100, height=40)
+        btn_update.place(x=120, y=400, width=100, height=40)
+        btn_delete.place(x=230, y=400, width=100, height=40)
+        btn_clear.place(x=340, y=400, width=100, height=40)
 
         # ---------- Search Frame -------------
         search_frame = LabelFrame(

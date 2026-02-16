@@ -7,6 +7,7 @@ Changes done to the base project listed per module.
 - The entire codebase was formatted by the Ruff formatter
 - All variables have been formatted to be snake_case.
 - Moved database handling to its own file database.py
+- Created a library for shared functionality, like creating the CRUD buttons
 
 ### 1. dashboard.py
 
@@ -14,15 +15,15 @@ Changes done to the base project listed per module.
 
 ### 2. employee.py
 
-- No changes
+- Changed to use shared CRUD button creation
 
 ### 3. supplier.py
 
-- No changes
+- Changed to use shared CRUD button creation
 
 ### 4. product.py
 
-- No changes
+- Changed to use shared CRUD button creation
 
 ### 5. category.py
 

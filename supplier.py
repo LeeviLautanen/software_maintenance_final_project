@@ -2,6 +2,7 @@ from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
 from database import fetchall, execute
+from common import create_crud_buttons
 
 
 class supplierClass:
@@ -92,42 +93,15 @@ class supplierClass:
         self.txt_desc.place(x=180, y=200, width=470, height=120)
 
         # -------------- buttons -----------------
-        btn_add = Button(
-            self.root,
-            text="Save",
-            command=self.add,
-            font=("goudy old style", 15),
-            bg="#2196f3",
-            fg="white",
-            cursor="hand2",
-        ).place(x=180, y=370, width=110, height=35)
-        btn_update = Button(
-            self.root,
-            text="Update",
-            command=self.update,
-            font=("goudy old style", 15),
-            bg="#4caf50",
-            fg="white",
-            cursor="hand2",
-        ).place(x=300, y=370, width=110, height=35)
-        btn_delete = Button(
-            self.root,
-            text="Delete",
-            command=self.delete,
-            font=("goudy old style", 15),
-            bg="#f44336",
-            fg="white",
-            cursor="hand2",
-        ).place(x=420, y=370, width=110, height=35)
-        btn_clear = Button(
-            self.root,
-            text="Clear",
-            command=self.clear,
-            font=("goudy old style", 15),
-            bg="#607d8b",
-            fg="white",
-            cursor="hand2",
-        ).place(x=540, y=370, width=110, height=35)
+
+        btn_add, btn_update, btn_delete, btn_clear = create_crud_buttons(
+            self.root, self.add, self.update, self.delete, self.clear
+        )
+        btn_add.place(x=180, y=370, width=110, height=35)
+        btn_update.place(x=300, y=370, width=110, height=35)
+        btn_delete.place(x=420, y=370, width=110, height=35)
+        btn_clear.place(x=540, y=370, width=110, height=35)
+
         sup_frame = Frame(self.root, bd=3, relief=RIDGE)
         sup_frame.place(x=700, y=120, width=380, height=350)
 
