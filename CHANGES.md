@@ -39,3 +39,4 @@ Changes done to the base project listed per module.
 ### 8. billing.py
 
 - Removed duplicated code from keypad creation
+- Cleaned up some commented out code and redundant comments

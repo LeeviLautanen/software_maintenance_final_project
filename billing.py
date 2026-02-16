@@ -422,7 +422,6 @@ class billClass:
         btn_generate.place(x=246, y=80, width=160, height=50)
 
         self.show()
-        # self.bill_top()
         self.update_date_time()
 
     # ---------------------- all functions ------------------------------
@@ -514,8 +513,6 @@ class billClass:
         elif int(self.var_qty.get()) > int(self.var_stock.get()):
             messagebox.showerror("Error", "Invalid Quantity", parent=self.root)
         else:
-            # price_cal=int(self.var_qty.get())*float(self.var_price.get())
-            # price_cal=float(price_cal)
             price_cal = self.var_price.get()
             cart_data = [
                 self.var_pid.get(),
@@ -542,10 +539,10 @@ class billClass:
                     if self.var_qty.get() == "0":
                         self.cart_list.pop(index_)
                     else:
-                        # self.cart_list[index_][2]=price_cal
                         self.cart_list[index_][3] = self.var_qty.get()
             else:
                 self.cart_list.append(cart_data)
+
             self.show_cart()
             self.bill_update()
 
@@ -553,8 +550,10 @@ class billClass:
         self.bill_amnt = 0
         self.net_pay = 0
         self.siscount = 0
+
         for row in self.cart_list:
             self.bill_amnt = self.bill_amnt + (float(row[2]) * int(row[3]))
+
         self.discount = (self.bill_amnt * 5) / 100
         self.net_pay = self.bill_amnt - self.discount
         self.lbl_amnt.config(text=f"Bill Amnt\n{str(self.bill_amnt)}")
@@ -581,11 +580,9 @@ class billClass:
                 "Error", f"Please Add product to the Cart!!!", parent=self.root
             )
         else:
-            # --------- bill top -----------------
+            # --------- bill parts ---------
             self.bill_top()
-            # --------- bill middle --------------
             self.bill_middle()
-            # --------- bill bottom --------------
             self.bill_bottom()
 
             fp = open(f"bill/{str(self.invoice)}.txt", "w")
