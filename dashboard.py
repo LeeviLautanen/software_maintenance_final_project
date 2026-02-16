@@ -2,8 +2,8 @@ from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import messagebox
 import time
-import sqlite3
 import os
+from database import fetchall
 
 from employee import employeeClass
 from supplier import supplierClass
@@ -250,24 +250,17 @@ class IMS:
         self.new_obj = salesClass(self.new_win)
 
     def update_content(self):
-        con = sqlite3.connect(database=os.path.join(BASE_DIR, "ims.db"))
-        cur = con.cursor()
-
         try:
-            cur.execute("select * from product")
-            product = cur.fetchall()
+            product = fetchall("select * from product")
             self.lbl_product.config(text=f"Total Product\n[ {len(product)} ]")
 
-            cur.execute("select * from category")
-            category = cur.fetchall()
+            category = fetchall("select * from category")
             self.lbl_category.config(text=f"Total Category\n[ {len(category)} ]")
 
-            cur.execute("select * from employee")
-            employee = cur.fetchall()
+            employee = fetchall("select * from employee")
             self.lbl_employee.config(text=f"Total Employee\n[ {len(employee)} ]")
 
-            cur.execute("select * from supplier")
-            supplier = cur.fetchall()
+            supplier = fetchall("select * from supplier")
             self.lbl_supplier.config(text=f"Total Supplier\n[ {len(supplier)} ]")
 
             bill = len(os.listdir(BILL_DIR))

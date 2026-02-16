@@ -6,6 +6,7 @@ Changes done to the base project listed per module.
 
 - The entire codebase was formatted by the Ruff formatter
 - All variables have been formatted to be snake_case.
+- Moved database handling to its own file
 
 ### 1. dashboard.py
 
@@ -19,8 +20,8 @@ Changes done to the base project listed per module.
 
 ### 6. sales.py
 
-### 7. creat_db.py
+### 7. create_db.py
 
 ### 8. billing.py
 
-- Removed redundant code from keypad creation
+- Removed duplicated code from keypad creation

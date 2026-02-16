@@ -1,7 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
-import sqlite3
+from database import fetchall, execute
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -103,27 +103,23 @@ class categoryClass:
 
     # ----------------------------------------------------------------------------------
     def add(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if self.var_name.get() == "":
                 messagebox.showerror(
                     "Error", "Category Name must be required", parent=self.root
                 )
             else:
-                cur.execute(
-                    "Select * from category where name=?", (self.var_name.get(),)
+                rows = fetchall(
+                    "Select * from category where name= ?", (self.var_name.get(),)
                 )
-                row = cur.fetchone()
-                if row != None:
+                if rows:
                     messagebox.showerror(
                         "Error", "Category already present", parent=self.root
                     )
                 else:
-                    cur.execute(
+                    execute(
                         "insert into category(name) values(?)", (self.var_name.get(),)
                     )
-                    con.commit()
                     messagebox.showinfo(
                         "Success", "Category Added Successfully", parent=self.root
                     )
@@ -133,11 +129,8 @@ class categoryClass:
             messagebox.showerror("Error", f"Error due to : {str(ex)}")
 
     def show(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
-            cur.execute("select * from category")
-            rows = cur.fetchall()
+            rows = fetchall("select * from category")
             self.category_table.delete(*self.category_table.get_children())
             for row in rows:
                 self.category_table.insert("", END, values=row)
@@ -156,19 +149,16 @@ class categoryClass:
         self.var_name.set(row[1])
 
     def delete(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if self.var_cat_id.get() == "":
                 messagebox.showerror(
                     "Error", "Category name must be required", parent=self.root
                 )
             else:
-                cur.execute(
-                    "Select * from category where cid=?", (self.var_cat_id.get(),)
+                rows = fetchall(
+                    "Select * from category where cid= ?", (self.var_cat_id.get(),)
                 )
-                row = cur.fetchone()
-                if row == None:
+                if not rows:
                     messagebox.showerror(
                         "Error", "Invalid Category Name", parent=self.root
                     )
@@ -176,11 +166,10 @@ class categoryClass:
                     op = messagebox.askyesno(
                         "Confirm", "Do you really want to delete?", parent=self.root
                     )
-                    if op == True:
-                        cur.execute(
+                    if op:
+                        execute(
                             "delete from category where cid=?", (self.var_cat_id.get(),)
                         )
-                        con.commit()
                         messagebox.showinfo(
                             "Delete", "Category Deleted Successfully", parent=self.root
                         )

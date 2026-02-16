@@ -1,7 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
-import sqlite3
+from database import fetchall, execute
 
 
 class supplierClass:
@@ -128,8 +128,6 @@ class supplierClass:
             fg="white",
             cursor="hand2",
         ).place(x=540, y=370, width=110, height=35)
-
-        # ------------ supplier details -------------
         sup_frame = Frame(self.root, bd=3, relief=RIDGE)
         sup_frame.place(x=700, y=120, width=380, height=350)
 
@@ -161,25 +159,22 @@ class supplierClass:
 
     # -----------------------------------------------------------------------------------------------------
     def add(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if self.var_sup_invoice.get() == "":
                 messagebox.showerror(
                     "Error", "Invoice must be required", parent=self.root
                 )
             else:
-                cur.execute(
+                rows = fetchall(
                     "Select * from supplier where invoice=?",
                     (self.var_sup_invoice.get(),),
                 )
-                row = cur.fetchone()
-                if row != None:
+                if rows:
                     messagebox.showerror(
                         "Error", "Invoice no. is already assigned", parent=self.root
                     )
                 else:
-                    cur.execute(
+                    execute(
                         "insert into supplier(invoice,name,contact,desc) values(?,?,?,?)",
                         (
                             self.var_sup_invoice.get(),
@@ -188,7 +183,6 @@ class supplierClass:
                             self.txt_desc.get("1.0", END),
                         ),
                     )
-                    con.commit()
                     messagebox.showinfo(
                         "Success", "Supplier Added Successfully", parent=self.root
                     )
@@ -198,11 +192,8 @@ class supplierClass:
             messagebox.showerror("Error", f"Error due to : {str(ex)}")
 
     def show(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
-            cur.execute("select * from supplier")
-            rows = cur.fetchall()
+            rows = fetchall("select * from supplier")
             self.supplier_table.delete(*self.supplier_table.get_children())
             for row in rows:
                 self.supplier_table.insert("", END, values=row)
@@ -220,25 +211,22 @@ class supplierClass:
         self.txt_desc.insert(END, row[3])
 
     def update(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if self.var_sup_invoice.get() == "":
                 messagebox.showerror(
                     "Error", "Invoice must be required", parent=self.root
                 )
             else:
-                cur.execute(
+                rows = fetchall(
                     "Select * from supplier where invoice=?",
                     (self.var_sup_invoice.get(),),
                 )
-                row = cur.fetchone()
-                if row == None:
+                if not rows:
                     messagebox.showerror(
                         "Error", "Invalid Invoice No.", parent=self.root
                     )
                 else:
-                    cur.execute(
+                    execute(
                         "update supplier set name=?,contact=?,desc=? where invoice=?",
                         (
                             self.var_name.get(),
@@ -247,7 +235,6 @@ class supplierClass:
                             self.var_sup_invoice.get(),
                         ),
                     )
-                    con.commit()
                     messagebox.showinfo(
                         "Success", "Supplier Updated Successfully", parent=self.root
                     )
@@ -256,20 +243,17 @@ class supplierClass:
             messagebox.showerror("Error", f"Error due to : {str(ex)}")
 
     def delete(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if self.var_sup_invoice.get() == "":
                 messagebox.showerror(
                     "Error", "Invoice No. must be required", parent=self.root
                 )
             else:
-                cur.execute(
-                    "Select * from supplier where invoice=?",
+                rows = fetchall(
+                    "Select * from supplier where invoice= ?",
                     (self.var_sup_invoice.get(),),
                 )
-                row = cur.fetchone()
-                if row == None:
+                if not rows:
                     messagebox.showerror(
                         "Error", "Invalid Invoice No.", parent=self.root
                     )
@@ -278,11 +262,10 @@ class supplierClass:
                         "Confirm", "Do you really want to delete?", parent=self.root
                     )
                     if op == True:
-                        cur.execute(
+                        execute(
                             "delete from supplier where invoice=?",
                             (self.var_sup_invoice.get(),),
                         )
-                        con.commit()
                         messagebox.showinfo(
                             "Delete", "Supplier Deleted Successfully", parent=self.root
                         )
@@ -299,22 +282,19 @@ class supplierClass:
         self.show()
 
     def search(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if self.var_searchtxt.get() == "":
                 messagebox.showerror(
                     "Error", "Invoice No. should be required", parent=self.root
                 )
             else:
-                cur.execute(
+                rows = fetchall(
                     "select * from supplier where invoice=?",
                     (self.var_searchtxt.get(),),
                 )
-                row = cur.fetchone()
-                if row != None:
+                if rows:
                     self.supplier_table.delete(*self.supplier_table.get_children())
-                    self.supplier_table.insert("", END, values=row)
+                    self.supplier_table.insert("", END, values=rows[0])
                 else:
                     messagebox.showerror(
                         "Error", "No record found!!!", parent=self.root

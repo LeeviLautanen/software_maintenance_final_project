@@ -1,7 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
-import sqlite3
+from database import fetchall, execute
 
 
 class employeeClass:
@@ -289,26 +289,23 @@ class employeeClass:
 
     # -----------------------------------------------------------------------------------------------------
     def add(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if self.var_emp_id.get() == "":
                 messagebox.showerror(
                     "Error", "Employee ID must be required", parent=self.root
                 )
             else:
-                cur.execute(
+                rows = fetchall(
                     "Select * from employee where eid=?", (self.var_emp_id.get(),)
                 )
-                row = cur.fetchone()
-                if row != None:
+                if rows:
                     messagebox.showerror(
                         "Error",
                         "This Employee ID is already assigned",
                         parent=self.root,
                     )
                 else:
-                    cur.execute(
+                    execute(
                         "insert into employee(eid,name,email,gender,contact,dob,doj,pass,utype,address,salary) values(?,?,?,?,?,?,?,?,?,?,?)",
                         (
                             self.var_emp_id.get(),
@@ -324,7 +321,6 @@ class employeeClass:
                             self.var_salary.get(),
                         ),
                     )
-                    con.commit()
                     messagebox.showinfo(
                         "Success", "Employee Added Successfully", parent=self.root
                     )
@@ -334,11 +330,8 @@ class employeeClass:
             messagebox.showerror("Error", f"Error due to : {str(ex)}")
 
     def show(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
-            cur.execute("select * from employee")
-            rows = cur.fetchall()
+            rows = fetchall("select * from employee")
             self.employee_table.delete(*self.employee_table.get_children())
             for row in rows:
                 self.employee_table.insert("", END, values=row)
@@ -363,24 +356,21 @@ class employeeClass:
         self.var_salary.set(row[10])
 
     def update(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if self.var_emp_id.get() == "":
                 messagebox.showerror(
                     "Error", "Employee ID must be required", parent=self.root
                 )
             else:
-                cur.execute(
+                rows = fetchall(
                     "Select * from employee where eid=?", (self.var_emp_id.get(),)
                 )
-                row = cur.fetchone()
-                if row == None:
+                if not rows:
                     messagebox.showerror(
                         "Error", "Invalid Employee ID", parent=self.root
                     )
                 else:
-                    cur.execute(
+                    execute(
                         "update employee set name=?,email=?,gender=?,contact=?,dob=?,doj=?,pass=?,utype=?,address=?,salary=? where eid=?",
                         (
                             self.var_name.get(),
@@ -396,7 +386,6 @@ class employeeClass:
                             self.var_emp_id.get(),
                         ),
                     )
-                    con.commit()
                     messagebox.showinfo(
                         "Success", "Employee Updated Successfully", parent=self.root
                     )
@@ -405,19 +394,16 @@ class employeeClass:
             messagebox.showerror("Error", f"Error due to : {str(ex)}")
 
     def delete(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if self.var_emp_id.get() == "":
                 messagebox.showerror(
                     "Error", "Employee ID must be required", parent=self.root
                 )
             else:
-                cur.execute(
+                rows = fetchall(
                     "Select * from employee where eid=?", (self.var_emp_id.get(),)
                 )
-                row = cur.fetchone()
-                if row == None:
+                if not rows:
                     messagebox.showerror(
                         "Error", "Invalid Employee ID", parent=self.root
                     )
@@ -426,10 +412,9 @@ class employeeClass:
                         "Confirm", "Do you really want to delete?", parent=self.root
                     )
                     if op == True:
-                        cur.execute(
+                        execute(
                             "delete from employee where eid=?", (self.var_emp_id.get(),)
                         )
-                        con.commit()
                         messagebox.showinfo(
                             "Delete", "Employee Deleted Successfully", parent=self.root
                         )
@@ -454,8 +439,6 @@ class employeeClass:
         self.show()
 
     def search(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if self.var_searchby.get() == "Select":
                 messagebox.showerror(
@@ -466,14 +449,12 @@ class employeeClass:
                     "Error", "Search input should be required", parent=self.root
                 )
             else:
-                cur.execute(
+                query = (
                     "select * from employee where "
                     + self.var_searchby.get()
-                    + " LIKE '%"
-                    + self.var_searchtxt.get()
-                    + "%'"
+                    + " LIKE ?"
                 )
-                rows = cur.fetchall()
+                rows = fetchall(query, ("%" + self.var_searchtxt.get() + "%",))
                 if len(rows) != 0:
                     self.employee_table.delete(*self.employee_table.get_children())
                     for row in rows:

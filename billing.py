@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import ttk, messagebox
-import sqlite3
+from database import fetchall, execute
 import time
 import os
 import tempfile
@@ -450,13 +450,10 @@ class billClass:
         self.var_cal_input.set(eval(result))
 
     def show(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
-            cur.execute(
+            rows = fetchall(
                 "select pid,name,price,qty,status from product where status='Active'"
             )
-            rows = cur.fetchall()
             self.product_table.delete(*self.product_table.get_children())
             for row in rows:
                 self.product_table.insert("", END, values=row)
@@ -464,20 +461,16 @@ class billClass:
             messagebox.showerror("Error", f"Error due to : {str(ex)}")
 
     def search(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if self.var_search.get() == "":
                 messagebox.showerror(
                     "Error", "Search input should be required", parent=self.root
                 )
             else:
-                cur.execute(
-                    "select pid,name,price,qty,status from product where name LIKE '%"
-                    + self.var_search.get()
-                    + "%'"
+                rows = fetchall(
+                    "select pid,name,price,qty,status from product where name LIKE ?",
+                    ("%" + self.var_search.get() + "%",),
                 )
-                rows = cur.fetchall()
                 if len(rows) != 0:
                     self.product_table.delete(*self.product_table.get_children())
                     for row in rows:
@@ -620,16 +613,14 @@ class billClass:
     def bill_bottom(self):
         bill_bottom_temp = f"""
 {str("=" * 46)}
- Bill Amount\t\t\t\tRs.{self.bill_amnt}
- Discount\t\t\t\tRs.{self.discount}
- Net Pay\t\t\t\tRs.{self.net_pay}
+Bill Amount\t\t\t\tRs.{self.bill_amnt}
+Discount\t\t\t\tRs.{self.discount}
+Net Pay\t\t\t\tRs.{self.net_pay}
 {str("=" * 46)}\n
 """
         self.txt_bill_area.insert(END, bill_bottom_temp)
 
     def bill_middle(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             for row in self.cart_list:
                 pid = row[0]
@@ -645,11 +636,9 @@ class billClass:
                     END, "\n " + name + "\t\t\t" + row[3] + "\tRs." + price
                 )
                 # ------------- update qty in product table --------------
-                cur.execute(
+                execute(
                     "update product set qty=?,status=? where pid=?", (qty, status, pid)
                 )
-                con.commit()
-            con.close()
             self.show()
         except Exception as ex:
             messagebox.showerror("Error", f"Error due to : {str(ex)}", parent=self.root)

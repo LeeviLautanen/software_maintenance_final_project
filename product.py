@@ -1,7 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
-import sqlite3
+from database import fetchall, execute
 
 
 class productClass:
@@ -236,18 +236,14 @@ class productClass:
     def fetch_cat_sup(self):
         self.cat_list.append("Empty")
         self.sup_list.append("Empty")
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
-            cur.execute("select name from category")
-            cat = cur.fetchall()
+            cat = fetchall("select name from category")
             if len(cat) > 0:
                 del self.cat_list[:]
                 self.cat_list.append("Select")
                 for i in cat:
                     self.cat_list.append(i[0])
-            cur.execute("select name from supplier")
-            sup = cur.fetchall()
+            sup = fetchall("select name from supplier")
             if len(sup) > 0:
                 del self.sup_list[:]
                 self.sup_list.append("Select")
@@ -257,8 +253,6 @@ class productClass:
             messagebox.showerror("Error", f"Error due to : {str(ex)}")
 
     def add(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if (
                 self.var_cat.get() == "Select"
@@ -270,16 +264,15 @@ class productClass:
                     "Error", "All fields are required", parent=self.root
                 )
             else:
-                cur.execute(
+                rows = fetchall(
                     "Select * from product where name=?", (self.var_name.get(),)
                 )
-                row = cur.fetchone()
-                if row != None:
+                if rows:
                     messagebox.showerror(
                         "Error", "Product already present", parent=self.root
                     )
                 else:
-                    cur.execute(
+                    execute(
                         "insert into product(Category,Supplier,name,price,qty,status) values(?,?,?,?,?,?)",
                         (
                             self.var_cat.get(),
@@ -290,7 +283,6 @@ class productClass:
                             self.var_status.get(),
                         ),
                     )
-                    con.commit()
                     messagebox.showinfo(
                         "Success", "Product Added Successfully", parent=self.root
                     )
@@ -300,11 +292,8 @@ class productClass:
             messagebox.showerror("Error", f"Error due to : {str(ex)}")
 
     def show(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
-            cur.execute("select * from product")
-            rows = cur.fetchall()
+            rows = fetchall("select * from product")
             self.product_table.delete(*self.product_table.get_children())
             for row in rows:
                 self.product_table.insert("", END, values=row)
@@ -324,20 +313,19 @@ class productClass:
         self.var_status.set(row[6])
 
     def update(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if self.var_pid.get() == "":
                 messagebox.showerror(
                     "Error", "Please select product from list", parent=self.root
                 )
             else:
-                cur.execute("Select * from product where pid=?", (self.var_pid.get(),))
-                row = cur.fetchone()
-                if row == None:
+                rows = fetchall(
+                    "Select * from product where pid=?", (self.var_pid.get(),)
+                )
+                if not rows:
                     messagebox.showerror("Error", "Invalid Product", parent=self.root)
                 else:
-                    cur.execute(
+                    execute(
                         "update product set Category=?,Supplier=?,name=?,price=?,qty=?,status=? where pid=?",
                         (
                             self.var_cat.get(),
@@ -349,7 +337,6 @@ class productClass:
                             self.var_pid.get(),
                         ),
                     )
-                    con.commit()
                     messagebox.showinfo(
                         "Success", "Product Updated Successfully", parent=self.root
                     )
@@ -358,27 +345,25 @@ class productClass:
             messagebox.showerror("Error", f"Error due to : {str(ex)}")
 
     def delete(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if self.var_pid.get() == "":
                 messagebox.showerror(
                     "Error", "Select Product from the list", parent=self.root
                 )
             else:
-                cur.execute("Select * from product where pid=?", (self.var_pid.get(),))
-                row = cur.fetchone()
-                if row == None:
+                rows = fetchall(
+                    "Select * from product where pid=?", (self.var_pid.get(),)
+                )
+                if not rows:
                     messagebox.showerror("Error", "Invalid Product", parent=self.root)
                 else:
                     op = messagebox.askyesno(
                         "Confirm", "Do you really want to delete?", parent=self.root
                     )
                     if op == True:
-                        cur.execute(
+                        execute(
                             "delete from product where pid=?", (self.var_pid.get(),)
                         )
-                        con.commit()
                         messagebox.showinfo(
                             "Delete", "Product Deleted Successfully", parent=self.root
                         )
@@ -399,8 +384,6 @@ class productClass:
         self.show()
 
     def search(self):
-        con = sqlite3.connect(database=r"ims.db")
-        cur = con.cursor()
         try:
             if self.var_searchby.get() == "Select":
                 messagebox.showerror(
@@ -411,14 +394,10 @@ class productClass:
                     "Error", "Search input should be required", parent=self.root
                 )
             else:
-                cur.execute(
-                    "select * from product where "
-                    + self.var_searchby.get()
-                    + " LIKE '%"
-                    + self.var_searchtxt.get()
-                    + "%'"
+                query = (
+                    "select * from product where " + self.var_searchby.get() + " LIKE ?"
                 )
-                rows = cur.fetchall()
+                rows = fetchall(query, ("%" + self.var_searchtxt.get() + "%",))
                 if len(rows) != 0:
                     self.product_table.delete(*self.product_table.get_children())
                     for row in rows:
