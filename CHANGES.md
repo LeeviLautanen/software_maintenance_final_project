@@ -8,6 +8,7 @@ Changes done to the base project listed per module.
 - All variables have been formatted to be snake_case.
 - Moved database handling to its own file database.py
 - Created a library for shared functionality, like creating the CRUD buttons
+- All classes names changed to PascalCase
 
 ### 1. dashboard.py
 

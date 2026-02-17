@@ -5,11 +5,11 @@ import time
 import os
 from database import fetchall
 
-from employee import employeeClass
-from supplier import supplierClass
-from category import categoryClass
-from product import productClass
-from sales import salesClass
+from employee import EmployeeClass
+from supplier import SupplierClass
+from category import CategoryClass
+from product import ProductClass
+from sales import SalesClass
 
 # ------------------ BASE PATH SETUP ------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -143,23 +143,23 @@ class IMS:
 
     def employee(self):
         self.new_win = Toplevel(self.root)
-        self.new_obj = employeeClass(self.new_win)
+        self.new_obj = EmployeeClass(self.new_win)
 
     def supplier(self):
         self.new_win = Toplevel(self.root)
-        self.new_obj = supplierClass(self.new_win)
+        self.new_obj = SupplierClass(self.new_win)
 
     def category(self):
         self.new_win = Toplevel(self.root)
-        self.new_obj = categoryClass(self.new_win)
+        self.new_obj = CategoryClass(self.new_win)
 
     def product(self):
         self.new_win = Toplevel(self.root)
-        self.new_obj = productClass(self.new_win)
+        self.new_obj = ProductClass(self.new_win)
 
     def sales(self):
         self.new_win = Toplevel(self.root)
-        self.new_obj = salesClass(self.new_win)
+        self.new_obj = SalesClass(self.new_win)
 
     def update_content(self):
         try:

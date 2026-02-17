@@ -5,7 +5,7 @@ from database import fetchall, execute
 from common import create_crud_buttons
 
 
-class employeeClass:
+class EmployeeClass:
     def __init__(self, root):
         self.root = root
         self.root.geometry("1100x500+320+220")
@@ -442,5 +442,5 @@ class employeeClass:
 
 if __name__ == "__main__":
     root = Tk()
-    obj = employeeClass(root)
+    obj = EmployeeClass(root)
     root.mainloop()

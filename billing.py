@@ -6,7 +6,7 @@ import os
 import tempfile
 
 
-class billClass:
+class BillClass:
     def __init__(self, root):
         self.root = root
         self.root.geometry("1350x700+110+80")
@@ -680,5 +680,5 @@ Net Pay\t\t\t\tRs.{self.net_pay}
 
 if __name__ == "__main__":
     root = Tk()
-    obj = billClass(root)
+    obj = BillClass(root)
     root.mainloop()
