@@ -42,3 +42,4 @@ Changes done to the base project listed per module.
 
 - Removed duplicated code from keypad creation
 - Cleaned up some commented out code and redundant comments
+- Moved the variables in the init method to the beginning to match other files

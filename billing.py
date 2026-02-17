@@ -12,8 +12,19 @@ class BillClass:
         self.root.geometry("1350x700+110+80")
         self.root.resizable(False, False)
         self.root.config(bg="white")
+
+        # ------------ variables --------------
         self.cart_list = []
         self.chk_print = 0
+        self.var_search = StringVar()
+        self.var_cname = StringVar()
+        self.var_contact = StringVar()
+        self.var_cal_input = StringVar()
+        self.var_pid = StringVar()
+        self.var_pname = StringVar()
+        self.var_price = StringVar()
+        self.var_qty = StringVar()
+        self.var_stock = StringVar()
 
         # ------------- title --------------
         self.icon_title = PhotoImage(file="images/logo1.png")
@@ -59,8 +70,6 @@ class BillClass:
             bg="#262626",
             fg="white",
         ).pack(side=TOP, fill=X)
-
-        self.var_search = StringVar()
 
         product_frame2 = Frame(product_frame1, bd=2, relief=RIDGE, bg="white")
         product_frame2.place(x=2, y=42, width=398, height=90)
@@ -144,9 +153,6 @@ class BillClass:
         ).pack(side=BOTTOM, fill=X)
 
         # -------------- customer frame ---------------
-        self.var_cname = StringVar()
-        self.var_contact = StringVar()
-
         CustomerFrame = Frame(self.root, bd=4, relief=RIDGE, bg="white")
         CustomerFrame.place(x=420, y=110, width=530, height=70)
 
@@ -181,8 +187,6 @@ class BillClass:
         cal_cart_frame.place(x=420, y=190, width=530, height=360)
 
         # --------------- calculator frame ---------------------
-        self.var_cal_input = StringVar()
-
         cal_frame = Frame(cal_cart_frame, bd=9, relief=RIDGE, bg="white")
         cal_frame.place(x=5, y=10, width=268, height=340)
 
@@ -262,12 +266,6 @@ class BillClass:
         self.cart_table.bind("<ButtonRelease-1>", self.get_data_cart)
 
         # -------------- add cart widgets frame ---------------
-        self.var_pid = StringVar()
-        self.var_pname = StringVar()
-        self.var_price = StringVar()
-        self.var_qty = StringVar()
-        self.var_stock = StringVar()
-
         add_cart_widgets_frame = Frame(self.root, bd=2, relief=RIDGE, bg="white")
         add_cart_widgets_frame.place(x=420, y=550, width=530, height=110)
 
