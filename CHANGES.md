@@ -32,7 +32,7 @@ Changes done to the base project listed per module.
 
 ### 6. sales.py
 
-- No changes
+- Fixed typo of "blll_list" to "bill_list"
 
 ### 7. create_db.py
 
