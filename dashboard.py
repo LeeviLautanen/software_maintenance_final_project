@@ -10,6 +10,7 @@ from supplier import SupplierClass
 from category import CategoryClass
 from product import ProductClass
 from sales import SalesClass
+from login import LoginClass
 
 # ------------------ BASE PATH SETUP ------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -44,6 +45,7 @@ class IMS:
         # ------------ logout button -----------
         btn_logout = Button(
             self.root,
+            command=self.handle_logout,
             text="Logout",
             font=("times new roman", 15, "bold"),
             bg="yellow",
@@ -110,7 +112,7 @@ class IMS:
             fg="white",
         ).pack(side=BOTTOM, fill=X)
 
-        self.update_content()
+        self.clock_job = self.lbl_clock.after(200, self.update_content)
 
     # -------------- functions ----------------
     def _create_menu_btn(self, frame, text, command):
@@ -140,6 +142,13 @@ class IMS:
             fg="white",
             font=("goudy old style", 20, "bold"),
         )
+
+    def handle_logout(self):
+        self.lbl_clock.after_cancel(self.clock_job)
+        self.root.destroy()
+        login_root = Tk()
+        LoginClass(login_root)
+        login_root.mainloop()
 
     def employee(self):
         self.new_win = Toplevel(self.root)
@@ -184,7 +193,7 @@ class IMS:
                 text=f"Welcome to Inventory Management System\t\t Date: {date_}\t\t Time: {time_}"
             )
 
-            self.lbl_clock.after(200, self.update_content)
+            self.clock_job = self.lbl_clock.after(200, self.update_content)
 
         except Exception as ex:
             messagebox.showerror("Error", f"Error due to : {str(ex)}", parent=self.root)
