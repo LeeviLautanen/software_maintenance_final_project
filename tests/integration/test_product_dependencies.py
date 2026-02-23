@@ -22,7 +22,7 @@ class TestProductWithDependencies:
             (category, supplier, name, price, qty, status),
         )
 
-    def test_product_category_and_supplier(self):
+    def test_product_category_and_supplier(self, data_regression):
         # Add a new category and supplier
         self.add_category("Electronics")
         self.add_supplier(1, "Supplier 1", "950650353", "Electronic components")
@@ -78,3 +78,4 @@ class TestProductWithDependencies:
         remaining = fetchall("SELECT * FROM product")
         assert len(remaining) == 1
         assert remaining[0][3] == "Capacitor Kit"
+        data_regression.check(remaining)

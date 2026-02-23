@@ -1,5 +1,6 @@
 from billing import BillClass
 from tkinter import Tk
+import re
 
 
 class TestBillGeneration:
@@ -7,7 +8,7 @@ class TestBillGeneration:
     Tests adding product to cart, adding customer information and generating the text bill.
     """
 
-    def test_bill_generation(self):
+    def test_bill_generation(self, data_regression):
         root = Tk()
         root.withdraw()  # Hide GUI during testing
         billing = BillClass(root)
@@ -38,7 +39,7 @@ class TestBillGeneration:
 ==============================================
  Customer Name: Customer 1
  Ph. no. : 253623634
- Bill No. {billing.invoice}			Date: 23/02/2026
+ Bill No. <invoice>			Date: <date>
 ==============================================
  Product Name			QTY	Price
 ==============================================
@@ -51,8 +52,16 @@ Net Pay				Rs.9.4905
 ==============================================
 """
 
+        # Remove dynamic parts of the bill (invoice number and date)
+        bill_text = billing.txt_bill_area.get("1.0", "end").strip()
+        bill_text_normalized = re.sub(r"Bill No\. \d+", "Bill No. <invoice>", bill_text)
+        bill_text_normalized = re.sub(
+            r"Date: \d{2}/\d{2}/\d{4}", "Date: <date>", bill_text_normalized
+        )
+
         # Check that generated bill matches expected
-        assert billing.txt_bill_area.get("1.0", "end").strip() == expected_bill.strip()
+        assert bill_text_normalized.strip() == expected_bill.strip()
+        data_regression.check(bill_text_normalized.strip())
 
         # Clear the data and check that everything is reset
         billing.clear_all()

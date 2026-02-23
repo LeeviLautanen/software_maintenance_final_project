@@ -38,7 +38,7 @@ class TestLoginValidation:
             ),
         )
 
-    def test_valid_admin(self):
+    def test_valid_admin(self, data_regression):
         self.create_admin()
         rows = fetchall(
             "SELECT * FROM employee WHERE email=? AND pass=?",
@@ -46,16 +46,18 @@ class TestLoginValidation:
         )
         assert len(rows) == 1
         assert rows[0][8] == "Admin"
+        data_regression.check(rows)
 
-    def test_invalid_password(self):
+    def test_invalid_password(self, data_regression):
         self.create_admin()
         rows = fetchall(
             "SELECT * FROM employee WHERE email=? AND pass=?",
             ("admin@email.com", "1111"),
         )
         assert rows == []
+        data_regression.check(rows)
 
-    def test_non_admin(self):
+    def test_non_admin(self, data_regression):
         self.create_employee()
         rows = fetchall(
             "SELECT * FROM employee WHERE email=? AND pass=?",
@@ -63,3 +65,4 @@ class TestLoginValidation:
         )
         assert len(rows) == 1
         assert rows[0][8] != "Admin"
+        data_regression.check(rows)
